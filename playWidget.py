@@ -65,12 +65,30 @@ class PlayWidget(Widget):
         self.player1.update(dt)
         self.player2.update(dt)
 
-        # Update Beam
-        self.beam.update(dt)
-
         # Update Enemies
         for enemy in self.enemies:
             enemy.update(dt)
+
+        collisions = self.getCollisions()
+        if len(collisions) > 0:
+            self.beam.setIsColliding(True)
+        else:
+            self.beam.setIsColliding(False)
+
+        # Update Beam
+        self.beam.update(dt)
+
+
+    def getCollisions(self):
+        beamLineCoords = (self.player2.pos[0], self.player2.pos[1], self.player1.pos[0], self.player1.pos[1])
+        collisions = []
+
+        for enemy in self.enemies:
+            if enemy.sprite.collidesWithLine(beamLineCoords):
+                collisions.append(enemy)
+
+        return collisions
+
 
         # If beam is fireing
             # Grab beam coords
