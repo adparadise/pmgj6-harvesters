@@ -25,6 +25,7 @@ class PlayWidget(Widget):
         self.canvas.add(self.scoreLabel.canvas)
 
         self.frameNum = 0
+        self.shouldClose = False
 
     def setKeyReport(self, keyReport):
         self.keyReport = keyReport

@@ -47,9 +47,9 @@ class KeyReport(object):
             self.p2_left = False
         elif keycode == 103:
             self.p2_right = False
-        elif keycode == 87:
-            self.p2_button1 = False
         elif keycode == 115:
+            self.p2_button1 = False
+        elif keycode == 97:
             self.p2_button2 = False
 
     def keyDown(self, keycode):
@@ -73,7 +73,7 @@ class KeyReport(object):
             self.p2_left = True
         elif keycode == 103:
             self.p2_right = True
-        elif keycode == 87:
-            self.p2_button1 = True
         elif keycode == 115:
+            self.p2_button1 = True
+        elif keycode == 97:
             self.p2_button2 = True

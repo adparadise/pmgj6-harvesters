@@ -11,9 +11,18 @@ class TitleWidget(Widget):
 
         self.canvas.add(Color(0.5, 0.5, 0.5))
         self.canvas.add(titleRect)
+        self.shouldClose = False
+        self.keyReport = None
+
+    def setKeyReport(self, keyReport):
+        self.keyReport = keyReport
 
     def reset(self):
+        self.shouldClose = False
         self.frameNum = 0
 
     def update(self, dt):
         self.frameNum += 1
+        if (self.keyReport.p1_button1 or self.keyReport.p1_button2 or
+            self.keyReport.p2_button1 or self.keyReport.p2_button2):
+            self.shouldClose = True
