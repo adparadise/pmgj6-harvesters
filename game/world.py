@@ -40,7 +40,7 @@ class World(object):
         sin = math.sin(theta)
         cos = math.cos(theta)
         orientation = (cos * self.direction[0] - sin * self.direction[1],
-                       sin * self.direction[0] + cos * self.direction[1])
+                       sin * self.direction[0] - cos * self.direction[1])
 
         if orientation[0] > 0:
             x = self.left + buffer
