@@ -50,7 +50,7 @@ class Game(Widget):
         self.keyReport.keyUp(keycode[0])
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[0] == 114:
+        if keycode[0] == 308:
             if self.currentWidget == self.title:
                 self.showWidget(self.play)
             else:
