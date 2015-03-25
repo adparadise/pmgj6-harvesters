@@ -75,6 +75,8 @@ class PlayWidget(Widget):
         self.player1.setCenterPos((200, 220))
         self.player2.setCenterPos((460, 220))
         self.score = 0
+        self.timeOfLastSpawn = 0
+        self.nextSpawnIn = 0
 
     def cleanup(self):
         self.enemyGroup.clear()
