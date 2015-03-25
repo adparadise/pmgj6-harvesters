@@ -14,6 +14,8 @@ from kivy.clock import Clock
 from titleWidget import TitleWidget
 from playWidget import PlayWidget
 
+from keyReport import KeyReport
+
 
 class Game(Widget):
     def __init__(self, **kwargs):
@@ -25,6 +27,8 @@ class Game(Widget):
         self.title = TitleWidget()
         self.play = PlayWidget()
         self.currentWidget = None
+
+        self.keyReport = KeyReport()
 
         self.frameNum = 0
         self.currentWidgetStartFrameNum = 0
@@ -41,28 +45,10 @@ class Game(Widget):
         self.add_widget(self.currentWidget)
 
     def _on_keyboard_up(self, keyboard, keycode):
-        if keycode[0] == 114:
-            pass
-
-#define KEY_CODE_LEFT_ALT   0x04    308
-#define KEY_CODE_LEFT_CTRL  0x01    305
-#define KEY_CODE_RIGHT_ARROW    0x4f    275
-#define KEY_CODE_LEFT_ARROW 0x50        276
-#define KEY_CODE_DOWN_ARROW 0x51    274
-#define KEY_CODE_UP_ARROW   0x52    273
-#define KEY_CODE_R      0x15    114
-#define KEY_CODE_F      0x09    102
-#define KEY_CODE_D      0x07    100
-#define KEY_CODE_G      0x0A    103
-#define KEY_CODE_A      0x04    87
-#define KEY_CODE_S      0x16    115
+        self.keyReport.keyUp(keycode[0])
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[0] == 114:
-            if self.currentWidget == self.title:
-                self.showWidget(self.play)
-            else:
-                self.showWidget(self.title)
+        self.keyReport.keyDown(keycode[0])
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
