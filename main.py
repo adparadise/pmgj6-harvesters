@@ -11,7 +11,8 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.clock import Clock
 
-from title import Title
+from titleWidget import TitleWidget
+from playWidget import PlayWidget
 
 
 class Game(Widget):
@@ -21,12 +22,24 @@ class Game(Widget):
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
         self._keyboard.bind(on_key_up=self._on_keyboard_up)
 
-        self.main = Title()
-        self.add_widget(self.main)
+        self.title = TitleWidget()
+        self.play = PlayWidget()
+
+        self.showTitle()
+
+    def showGame(self):
+        self.remove_widget(self.title)
+        self.add_widget(self.play)
+        self.isTitle = False
+
+    def showTitle(self):
+        self.remove_widget(self.play)
+        self.add_widget(self.title)
+        self.isTitle = True
 
     def _on_keyboard_up(self, keyboard, keycode):
         if keycode[0] == 114:
-            self.isPlayingRequested = False
+            pass
 
 #define KEY_CODE_LEFT_ALT   0x04    308
 #define KEY_CODE_LEFT_CTRL  0x01    305
@@ -43,7 +56,10 @@ class Game(Widget):
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[0] == 114:
-            self.isPlayingRequested = True
+            if self.isTitle:
+                self.showGame()
+            else:
+                self.showTitle()
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
