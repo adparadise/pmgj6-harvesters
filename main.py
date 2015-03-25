@@ -43,6 +43,9 @@ class Game(Widget):
             self.remove_widget(self.currentWidget)
             self.currentWidget.cleanup()
 
+        if widget == self.title:
+            widget.setLastScore(self.play.score)
+
         self.currentWidget = widget
         self.currentWidget.reset()
         self.currentWidgetStartFrameNum = self.frameNum

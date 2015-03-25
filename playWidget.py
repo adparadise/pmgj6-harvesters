@@ -48,7 +48,7 @@ class PlayWidget(Widget):
 
         # Background
         self.canvas.add(Color(0.2, 0.2, 0.2))
-        self.canvas.add(playRect)
+        #self.canvas.add(playRect)
         self.canvas.add(self.enemyGroup)
         self.canvas.add(self.beam.canvas)
         self.canvas.add(self.player1.canvas)
@@ -72,6 +72,7 @@ class PlayWidget(Widget):
         self.player2.reset()
         self.player1.setCenterPos((200, 220))
         self.player2.setCenterPos((460, 220))
+        self.score = 0
 
     def cleanup(self):
         self.enemyGroup.clear()
