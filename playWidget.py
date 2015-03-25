@@ -4,9 +4,9 @@ from kivy.graphics import *
 from kivy.uix.label import Label
 import random
 
-from player import Player
-from beam import Beam
-from enemy import Enemy
+from game.player import Player
+from game.beam import Beam
+from game.enemy import Enemy
 
 class PlayWidget(Widget):
 
