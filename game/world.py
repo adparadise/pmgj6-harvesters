@@ -9,7 +9,7 @@ class World(object):
 
     def __init__(self, **kwargs):
         self.theta = math.pi * 0.5
-        self.speed = 2
+        self.speed = 1.5
         self.redirect(0)
 
         self.frameNum = 0
@@ -32,24 +32,33 @@ class World(object):
         self.theta += dtheta
         self.direction = (math.cos(self.theta), math.sin(self.theta))
 
-    def nextEnemyPos(self):
+    def nextEnemyPos(self, theta):
         x = 0
         y = 0
         buffer = 5
 
-        if self.direction[0] > 0:
+        sin = math.sin(theta)
+        cos = math.cos(theta)
+        orientation = (cos * self.direction[0] - sin * self.direction[1],
+                       sin * self.direction[0] + cos * self.direction[1])
+
+        if orientation[0] > 0:
             x = self.left + buffer
         else:
             x = self.right - buffer
 
-        if self.direction[1] < 0:
+        if orientation[1] < 0:
             y = self.top - buffer
         else:
             y = self.bottom + buffer
 
-        dx = abs(self.direction[0])
-        dy = abs(self.direction[1])
-        ratio = dx / (dx + dy)
+        dx = abs(orientation[0])
+        dy = abs(orientation[1])
+        if not dx + dy == 0:
+            ratio = dx / (dx + dy)
+        else:
+            print "here"
+            ratio = 0.5
 
         sample = random.random()
         pos = (0, 0)

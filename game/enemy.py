@@ -7,28 +7,44 @@ import random
 from sprite import Sprite
 
 class Enemy():
-    def __init__(self, **kwargs):
+    def __init__(self, enemyType, **kwargs):
         self.canvas = InstructionGroup()
 
+        self.enemyType = enemyType
         self.sprite = Sprite()
+
+        if self.enemyType == 'normal':
+            self.setOffsetTheta(0)
+            self.sprite.color.r = 0.0
+            self.sprite.color.g = 0.2
+            self.sprite.color.b = 0.5
+        else:
+            self.setOffsetTheta(math.pi / 2)
+            self.sprite.color.r = 0.5
+            self.sprite.color.g = 0.1
+            self.sprite.color.b = 0.1
+
         self.health = 100
 
         self.pos = (0, 0)
         self.velocity = [0, 0]
 
-        self.sprite.color.r = 0.0
-        self.sprite.color.g = 0.2
-        self.sprite.color.b = 0.5
         self.updateAppearance()
 
         self.canvas.add(self.sprite.canvas)
 
         self.shouldRemove = False
 
+    def setOffsetTheta(self, offsetTheta):
+        self.offsetTheta = offsetTheta
+        self.otcos = math.cos(self.offsetTheta)
+        self.otsin = math.sin(self.offsetTheta)
+
+
     def reset(self, isRespawned):
         sample = random.random()
         theta = math.pi * 2 * sample
-        speed = 0.1
+        speed = 0.05
         self.isRespawned = isRespawned
         self.velocity = [math.cos(theta) * speed,
                          math.sin(theta) * speed]
@@ -44,7 +60,11 @@ class Enemy():
         delta = 0
         if beamState == 1:
             self.health -= 10
-            delta = 100
+            if self.enemyType == 'normal':
+                delta = 100
+            else:
+                delta = -500
+
         if self.health <= 0:
             self.shouldRemove = True
         else:
@@ -55,15 +75,23 @@ class Enemy():
 
 
     def updateAppearance(self):
+        baseSize = 30
+        if not self.enemyType == 'normal':
+            baseSize = 15
+
         factor = math.log(100 - self.health + 1)
-        self.sprite.setSizeScalar(30 + factor * 10)
+        self.sprite.setSizeScalar(baseSize + factor * 10)
 
     def update(self, dt):
-        centerPos = (self.pos[0] + self.velocity[0] + self.world.direction[0] * self.world.speed,
-                     self.pos[1] + self.velocity[1] + self.world.direction[1] * self.world.speed)
+        worldVector = (self.world.direction[0] * self.world.speed,
+                       self.world.direction[1] * self.world.speed)
+        worldOffset = (worldVector[0] * self.otcos - worldVector[1] * self.otsin,
+                       worldVector[0] * self.otsin - worldVector[1] * self.otcos)
+
+        centerPos = (self.pos[0] + self.velocity[0] + worldOffset[0],
+                     self.pos[1] + self.velocity[1] + worldOffset[1])
 
         if self.isRespawned:
-            print centerPos
             self.isRespawned = False
 
         if centerPos[0] < self.world.left:

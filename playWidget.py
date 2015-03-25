@@ -3,6 +3,7 @@ from kivy.uix.widget import Widget
 from kivy.graphics import *
 from kivy.uix.label import Label
 import math
+import random
 
 from game.player import Player
 from game.beam import Beam
@@ -19,7 +20,7 @@ class PlayWidget(Widget):
     player2 = None
     world = None
 
-    roundFrames = FRAMERATE * 1
+    roundFrames = FRAMERATE * 30
 
     def __init__(self, **kwargs):
         super(PlayWidget, self).__init__(**kwargs)
@@ -79,13 +80,13 @@ class PlayWidget(Widget):
         self.enemyGroup.clear()
         self.enemies = []
 
-    def spawnEnemy(self):
-        enemy = Enemy()
+    def spawnEnemy(self, enemyType):
+        enemy = Enemy(enemyType)
         enemy.reset(False)
         enemy.setWorld(self.world)
         self.enemyGroup.add(enemy.canvas)
 
-        centerPos = self.world.nextEnemyPos()
+        centerPos = self.world.nextEnemyPos(enemy.offsetTheta)
         enemy.setCenterPos(centerPos)
         self.enemies.append(enemy)
 
@@ -160,7 +161,10 @@ class PlayWidget(Widget):
         if self.timeOfLastSpawn + self.nextSpawnIn > self.frameNum:
             return
 
-        self.spawnEnemy()
+        enemyType = 'normal'
+        if random.random() < 0.3:
+            enemyType = 'other'
+        self.spawnEnemy(enemyType)
         self.timeOfLastSpawn = self.frameNum
 
         if self.frameNum < 200:
