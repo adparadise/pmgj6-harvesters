@@ -1,11 +1,13 @@
 
 from kivy.uix.widget import Widget
 from kivy.graphics import *
+from kivy.uix.label import Label
 
 from beam import Beam
 
-
 class PlayWidget(Widget):
+
+    score = 0
 
     def __init__(self, **kwargs):
         super(PlayWidget, self).__init__(**kwargs)
@@ -18,6 +20,9 @@ class PlayWidget(Widget):
 
         self.beam = Beam()
         self.canvas.add(self.beam.canvas)
+
+        self.scoreLabel = Label(text='Score: ' + str(self.score), pos=(295, 400))
+        self.canvas.add(self.scoreLabel.canvas)
 
         self.frameNum = 0
 
