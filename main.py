@@ -24,11 +24,13 @@ class Game(Widget):
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
         self._keyboard.bind(on_key_up=self._on_keyboard_up)
 
+        self.keyReport = KeyReport()
+
         self.title = TitleWidget()
         self.play = PlayWidget()
+        self.play.setKeyReport(self.keyReport)
         self.currentWidget = None
 
-        self.keyReport = KeyReport()
 
         self.frameNum = 0
         self.currentWidgetStartFrameNum = 0
@@ -48,6 +50,11 @@ class Game(Widget):
         self.keyReport.keyUp(keycode[0])
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
+        if keycode[0] == 114:
+            if self.currentWidget == self.title:
+                self.showWidget(self.play)
+            else:
+                self.showWidget(self.title)
         self.keyReport.keyDown(keycode[0])
 
     def _keyboard_closed(self):
