@@ -15,6 +15,10 @@ class Beam():
         self.player2.setCenterPos((230, 120))
         self.canvas.add(self.player2.canvas)
 
+        self.beamLine = Line(points=(100, 200, 150, 250), width=3)
+        self.canvas.add(self.beamLine)
+
+
 
     def setKeyReport(self, keyReport):
         self.keyReport = keyReport
@@ -24,3 +28,4 @@ class Beam():
     def update(self, dt):
     	self.player1.update(dt)
     	self.player2.update(dt)
+    	self.beamLine.points = (self.player2.pos[0], self.player2.pos[1], self.player1.pos[0], self.player1.pos[1])
