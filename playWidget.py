@@ -2,19 +2,24 @@
 from kivy.uix.widget import Widget
 from kivy.graphics import *
 from kivy.uix.label import Label
-import random
+import math
 
 from game.player import Player
 from game.beam import Beam
 from game.enemy import Enemy
 from game.world import World
 
+FRAMERATE = 60
+
 class PlayWidget(Widget):
+    frameNum = 0
     score = 0
     enemies = []
     player1 = None
     player2 = None
     world = None
+
+    roundFrames = FRAMERATE * 10
 
     def __init__(self, **kwargs):
         super(PlayWidget, self).__init__(**kwargs)
@@ -28,17 +33,18 @@ class PlayWidget(Widget):
 
         # Create Players
         self.player1 = Player('p1')
-        self.player1.setCenterPos((330, 220))
 
         self.player2 = Player('p2')
-        self.player2.setCenterPos((230, 120))
 
         # Create Beam
         self.beam = Beam(self.player1, self.player2)
 
         # Create Score Label
         self.scoreLabel = Label(text='', pos=(295, 400))
+        self.timerLabel = Label(text='', pos=(560, 350),
+                                font_size=100, halign='right')
         self.updateScoreDisplay()
+        self.updateTimerDisplay()
 
         # Background
         self.canvas.add(Color(0.2, 0.2, 0.2))
@@ -48,9 +54,8 @@ class PlayWidget(Widget):
         self.canvas.add(self.player1.canvas)
         self.canvas.add(self.player2.canvas)
         self.canvas.add(self.scoreLabel.canvas)
+        self.canvas.add(self.timerLabel.canvas)
 
-
-        self.frameNum = 0
         self.timeOfLastSpawn = 0
         self.nextSpawnIn = 0
         self.shouldClose = False
@@ -60,10 +65,17 @@ class PlayWidget(Widget):
         self.beam.setKeyReport(keyReport)
 
     def reset(self):
+        self.shouldClose = False
         self.frameNum = 0
         self.world.reset()
         self.player1.reset()
         self.player2.reset()
+        self.player1.setCenterPos((200, 220))
+        self.player2.setCenterPos((460, 220))
+
+    def cleanup(self):
+        self.enemyGroup.clear()
+        self.enemies = []
 
     def spawnEnemy(self):
         enemy = Enemy()
@@ -77,6 +89,13 @@ class PlayWidget(Widget):
 
     def update(self, dt):
         self.frameNum += 1
+
+        if self.frameNum > self.roundFrames:
+            self.shouldClose = True
+            return
+
+        if self.frameNum % FRAMERATE == 0:
+            self.updateTimerDisplay()
 
         self.world.update(dt)
 
@@ -117,6 +136,23 @@ class PlayWidget(Widget):
 
     def updateScoreDisplay(self):
         self.scoreLabel.text = 'Score: ' + str(self.score)
+
+    def updateTimerDisplay(self):
+        seconds = int(math.ceil((self.roundFrames - self.frameNum) / FRAMERATE))
+        if seconds > 5:
+            self.timerLabel.color[3] = 0.3
+        else:
+            self.timerLabel.color[3] = 1
+        if seconds > 3:
+            self.timerLabel.color[0] = 1
+            self.timerLabel.color[1] = 1
+            self.timerLabel.color[2] = 1
+        else:
+            self.timerLabel.color[0] = 0.6
+            self.timerLabel.color[1] = 0
+            self.timerLabel.color[2] = 0
+
+        self.timerLabel.text = str(seconds)
 
     def spawnNewEnemies(self):
         if self.timeOfLastSpawn + self.nextSpawnIn > self.frameNum:
@@ -161,16 +197,4 @@ class PlayWidget(Widget):
                 collisions.append(enemy)
 
         return collisions
-
-
-        # If beam is fireing
-            # Grab beam coords
-            # Iterate through enemies
-                # if enemy is in collision with beam, score++
-
-            # Iterate through power-ups
-                # if power-up is in collision with beam
-                    # Remove power-up
-                    # score -= 10
-
 

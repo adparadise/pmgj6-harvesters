@@ -17,12 +17,16 @@ class TitleWidget(Widget):
     def setKeyReport(self, keyReport):
         self.keyReport = keyReport
 
+    def cleanup(self):
+        pass
+
     def reset(self):
         self.shouldClose = False
         self.frameNum = 0
 
     def update(self, dt):
         self.frameNum += 1
-        if (self.keyReport.player1.button1 or self.keyReport.player1.button2 or
+        if (self.frameNum > 60 and
+            self.keyReport.player1.button1 or self.keyReport.player1.button2 or
             self.keyReport.player2.button1 or self.keyReport.player2.button2):
             self.shouldClose = True

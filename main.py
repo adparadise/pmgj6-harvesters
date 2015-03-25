@@ -41,6 +41,7 @@ class Game(Widget):
     def showWidget(self, widget):
         if not self.currentWidget == None:
             self.remove_widget(self.currentWidget)
+            self.currentWidget.cleanup()
 
         self.currentWidget = widget
         self.currentWidget.reset()
