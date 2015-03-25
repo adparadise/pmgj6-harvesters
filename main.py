@@ -24,18 +24,21 @@ class Game(Widget):
 
         self.title = TitleWidget()
         self.play = PlayWidget()
+        self.currentWidget = None
 
-        self.showTitle()
+        self.frameNum = 0
+        self.currentWidgetStartFrameNum = 0
 
-    def showGame(self):
-        self.remove_widget(self.title)
-        self.add_widget(self.play)
-        self.isTitle = False
+        self.showWidget(self.title)
 
-    def showTitle(self):
-        self.remove_widget(self.play)
-        self.add_widget(self.title)
-        self.isTitle = True
+    def showWidget(self, widget):
+        if not self.currentWidget == None:
+            self.remove_widget(self.currentWidget)
+
+        self.currentWidget = widget
+        self.currentWidget.reset()
+        self.currentWidgetStartFrameNum = self.frameNum
+        self.add_widget(self.currentWidget)
 
     def _on_keyboard_up(self, keyboard, keycode):
         if keycode[0] == 114:
@@ -56,17 +59,21 @@ class Game(Widget):
 
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[0] == 114:
-            if self.isTitle:
-                self.showGame()
+            if self.currentWidget == self.title:
+                self.showWidget(self.play)
             else:
-                self.showTitle()
+                self.showWidget(self.title)
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
 
     def update(self, dt):
-        pass
+        if self.currentWidget == None:
+            return
+
+        self.frameNum += 1
+        self.currentWidget.update(dt)
 
 class MainApp(App):
     def build(self):

@@ -11,3 +11,10 @@ class PlayWidget(Widget):
 
         self.canvas.add(Color(0.2, 0.2, 0.2))
         self.canvas.add(playRect)
+        self.frameNum = 0
+
+    def reset(self):
+        self.frameNum = 0
+
+    def update(self, dt):
+        self.frameNum += 1

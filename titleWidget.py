@@ -11,3 +11,9 @@ class TitleWidget(Widget):
 
         self.canvas.add(Color(0.5, 0.5, 0.5))
         self.canvas.add(titleRect)
+
+    def reset(self):
+        self.frameNum = 0
+
+    def update(self, dt):
+        self.frameNum += 1
