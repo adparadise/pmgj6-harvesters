@@ -19,7 +19,7 @@ class PlayWidget(Widget):
     player2 = None
     world = None
 
-    roundFrames = FRAMERATE * 10
+    roundFrames = FRAMERATE * 1
 
     def __init__(self, **kwargs):
         super(PlayWidget, self).__init__(**kwargs)
@@ -70,6 +70,7 @@ class PlayWidget(Widget):
         self.world.reset()
         self.player1.reset()
         self.player2.reset()
+        self.beam.reset()
         self.player1.setCenterPos((200, 220))
         self.player2.setCenterPos((460, 220))
         self.score = 0

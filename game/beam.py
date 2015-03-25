@@ -31,6 +31,9 @@ class Beam():
     def setIsColliding(self, isColliding):
         self.isColliding = isColliding
 
+    def reset(self):
+        self.beamState = 0
+        self.isColliding = False
 
     def updateBeamState(self):
         bothButton1 = self.keyReport.player1.button1 and self.keyReport.player2.button1

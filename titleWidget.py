@@ -55,7 +55,6 @@ class TitleWidget(Widget):
         pass
 
     def reset(self):
-        print "reset"
         self.shouldClose = False
         self.frameNum = 0
 
@@ -63,7 +62,6 @@ class TitleWidget(Widget):
     def update(self, dt):
         self.frameNum += 1
         if (self.frameNum > 60 and
-            self.keyReport.player1.button1 or self.keyReport.player1.button2 or
-            self.keyReport.player2.button1 or self.keyReport.player2.button2):
-            print self.frameNum
+            (self.keyReport.player1.button1 or self.keyReport.player1.button2 or
+             self.keyReport.player2.button1 or self.keyReport.player2.button2)):
             self.shouldClose = True
