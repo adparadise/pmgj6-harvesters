@@ -20,7 +20,6 @@ class Player():
         if playerCode == 'enemy1':
         	self.sprite.color.b = 1
 
-
         self.canvas.add(self.sprite.canvas)
 
     def setCenterPos(self, centerPos):

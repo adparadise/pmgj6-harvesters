@@ -5,7 +5,11 @@ import math
 from player import Player
 
 class Beam():
-    def __init__(self, **kwargs):
+    enemies = []
+    player1 = None
+    player2 = None
+
+    def __init__(self, player1, player2, **kwargs):
         self.canvas = InstructionGroup()
 
         self.beamColor = Color(0.0, 0.0, 0.0, 1.0)
@@ -14,18 +18,8 @@ class Beam():
         self.canvas.add(self.beamColor)
         self.canvas.add(self.beamGroup)
 
-
-        self.player1 = Player('p1')
-        self.player1.setCenterPos((330, 220))
-        self.canvas.add(self.player1.canvas)
-
-        self.player2 = Player('p2')
-        self.player2.setCenterPos((230, 120))
-        self.canvas.add(self.player2.canvas)
-
-        self.enemy1 = Player('enemy1')
-        self.enemy1.setCenterPos((300, 300))
-        self.canvas.add(self.enemy1.canvas)
+        self.player1 = player1
+        self.player2 = player2
 
         self.beamState = 0
 
@@ -66,15 +60,13 @@ class Beam():
 
 
     def update(self, dt):
-    	self.player1.update(dt)
-    	self.player2.update(dt)
 
     	beamLineCoords = (self.player2.pos[0], self.player2.pos[1], self.player1.pos[0], self.player1.pos[1])
 
-    	if self.enemy1.sprite.collidesWithLine(beamLineCoords):
-            self.beamThickness = 40
-    	else:
-            self.beamThickness = 1
+    	#if self.enemies[0].sprite.collidesWithLine(beamLineCoords):
+        #    self.beamThickness = 40
+    	#else:
+        #    self.beamThickness = 1
 
         isChanged = self.updateBeamState()
         if isChanged:
@@ -89,6 +81,6 @@ class Beam():
                 self.beamColor.b = 0.3
                 self.beamColor.a = 1
 
-
         self.updateBeam(self.player1.pos, self.player2.pos)
+
 
