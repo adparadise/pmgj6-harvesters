@@ -22,7 +22,7 @@ class Sprite():
 
     def repos(self):
         size = (self.sizeScalar, self.sizeScalar * ASPECT)
-        self.rect.pos = self.centerPos
+        self.rect.pos = (self.centerPos[0] - (size[0] / 2), self.centerPos[1] - (size[1] / 2))
         self.rect.size = size
 
     def setCenterPos(self, centerPos):
