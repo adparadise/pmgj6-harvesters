@@ -21,32 +21,35 @@ class PlayWidget(Widget):
         # 330, 220
         playRect = Rectangle(pos=(50, 40), size=(610, 400))
 
-        self.canvas.add(Color(0.2, 0.2, 0.2))
-        self.canvas.add(playRect)
+        self.enemyGroup = InstructionGroup()
+
+        # Create Enemies
+        for x in range(0, 5):
+            self.spawnEnemy()
+
 
         # Create Players
         self.player1 = Player('p1')
         self.player1.setCenterPos((330, 220))
-        self.canvas.add(self.player1.canvas)
 
         self.player2 = Player('p2')
         self.player2.setCenterPos((230, 120))
-        self.canvas.add(self.player2.canvas)
 
         # Create Beam
         self.beam = Beam(self.player1, self.player2)
-        self.canvas.add(self.beam.canvas)
-
-        # Create Enemies
-        for x in range(0, 5):
-            enemy = Enemy()
-            enemy.randomPosition()
-            self.enemies.append(enemy)
-            self.canvas.add(enemy.canvas)
 
         # Create Score Label
         self.scoreLabel = Label(text='Score: ' + str(self.score), pos=(295, 400))
+
+        # Background
+        self.canvas.add(Color(0.2, 0.2, 0.2))
+        self.canvas.add(playRect)
+        self.canvas.add(self.enemyGroup)
+        self.canvas.add(self.beam.canvas)
+        self.canvas.add(self.player1.canvas)
+        self.canvas.add(self.player2.canvas)
         self.canvas.add(self.scoreLabel.canvas)
+
 
         self.frameNum = 0
         self.shouldClose = False
@@ -57,6 +60,12 @@ class PlayWidget(Widget):
 
     def reset(self):
         self.frameNum = 0
+
+    def spawnEnemy(self):
+        enemy = Enemy()
+        enemy.randomPosition()
+        self.enemies.append(enemy)
+        self.enemyGroup.add(enemy.canvas)
 
     def update(self, dt):
         self.frameNum += 1
