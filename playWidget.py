@@ -7,13 +7,14 @@ import random
 from game.player import Player
 from game.beam import Beam
 from game.enemy import Enemy
+from game.world import World
 
 class PlayWidget(Widget):
-
     score = 0
     enemies = []
     player1 = None
     player2 = None
+    world = None
 
     def __init__(self, **kwargs):
         super(PlayWidget, self).__init__(**kwargs)
@@ -23,10 +24,7 @@ class PlayWidget(Widget):
 
         self.enemyGroup = InstructionGroup()
 
-        # Create Enemies
-        for x in range(0, 5):
-            self.spawnEnemy()
-
+        self.world = World()
 
         # Create Players
         self.player1 = Player('p1')
@@ -52,6 +50,8 @@ class PlayWidget(Widget):
 
 
         self.frameNum = 0
+        self.timeOfLastSpawn = 0
+        self.nextSpawnIn = 0
         self.shouldClose = False
 
     def setKeyReport(self, keyReport):
@@ -60,21 +60,30 @@ class PlayWidget(Widget):
 
     def reset(self):
         self.frameNum = 0
+        self.world.reset()
         self.player1.reset()
         self.player2.reset()
 
     def spawnEnemy(self):
         enemy = Enemy()
-        enemy.randomPosition()
-        self.enemies.append(enemy)
+        enemy.reset(False)
+        enemy.setWorld(self.world)
         self.enemyGroup.add(enemy.canvas)
+
+        centerPos = self.world.nextEnemyPos()
+        enemy.setCenterPos(centerPos)
+        self.enemies.append(enemy)
 
     def update(self, dt):
         self.frameNum += 1
 
+        self.world.update(dt)
+
         # Update Players
         self.player1.update(dt)
         self.player2.update(dt)
+
+        self.spawnNewEnemies()
 
         # Update Enemies
         for enemy in self.enemies:
@@ -86,8 +95,43 @@ class PlayWidget(Widget):
         else:
             self.beam.setIsColliding(False)
 
+        self.clearDeadEnemies()
+
         # Update Beam
         self.beam.update(dt)
+
+    def spawnNewEnemies(self):
+        if self.timeOfLastSpawn + self.nextSpawnIn > self.frameNum:
+            return
+
+        self.spawnEnemy()
+        self.timeOfLastSpawn = self.frameNum
+
+        if self.frameNum < 200:
+            self.nextSpawnIn = 10
+
+
+    def clearDeadEnemies(self):
+        deadEnemies = []
+
+        for enemy in self.enemies:
+            if enemy.shouldRemove:
+                deadEnemies.append(enemy)
+
+        if len(deadEnemies) == 0:
+            return
+
+        aliveEnemies = []
+        for enemy in self.enemies:
+            if not enemy.shouldRemove:
+                aliveEnemies.append(enemy)
+
+        # rebuild
+        self.enemyGroup.clear()
+        for enemy in aliveEnemies:
+            self.enemyGroup.add(enemy.canvas)
+
+        self.enemies = aliveEnemies
 
 
     def getCollisions(self):

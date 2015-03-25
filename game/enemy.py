@@ -13,6 +13,7 @@ class Enemy():
         self.sprite = Sprite()
 
         self.pos = (0, 0)
+        self.velocity = [0, 0]
 
         self.sprite.color.r = 0.0
         self.sprite.color.g = 0.2
@@ -21,38 +22,41 @@ class Enemy():
 
         self.canvas.add(self.sprite.canvas)
 
-    def reset(self):
-        pass
+        self.shouldRemove = False
 
-    def setWorld(self):
+    def reset(self, isRespawned):
+        sample = random.random()
+        theta = math.pi * 2 * sample
+        speed = 0.1
+        self.isRespawned = isRespawned
+        self.velocity = [math.cos(theta) * speed,
+                         math.sin(theta) * speed]
+
+    def setWorld(self, world):
         self.world = world
 
     def setCenterPos(self, centerPos):
     	self.pos = centerPos
         self.sprite.setCenterPos(centerPos)
 
-    def randomPosition(self):
-        centerPos = (random.randrange(50, 300), random.randrange(50, 300))
-        self.pos = centerPos
-        self.sprite.setCenterPos(centerPos)
-
-        theta = math.pi * 0.6
-        self.velocity = [math.cos(theta), math.sin(theta)]
-
     def update(self, dt):
+        centerPos = (self.pos[0] + self.velocity[0] + self.world.direction[0] * self.world.speed,
+                     self.pos[1] + self.velocity[1] + self.world.direction[1] * self.world.speed)
 
-        newCoord = (self.pos[0] + self.velocity[0], self.pos[1] + self.velocity[1])
+        if self.isRespawned:
+            print centerPos
+            self.isRespawned = False
 
-        if newCoord[0] < 0:
-            self.velocity[0] = -(self.velocity[0])
+        if centerPos[0] < self.world.left:
+            self.shouldRemove = True
 
-        if newCoord[0] > 700:
-            self.velocity[0] = -(self.velocity[0])
+        if centerPos[0] > self.world.right:
+            self.shouldRemove = True
 
-        if newCoord[1] < 10:
-            self.velocity[1] = -(self.velocity[1])
+        if centerPos[1] < self.world.left:
+            self.shouldRemove = True
 
-        if newCoord[1] > 450:
-            self.velocity[1] = -(self.velocity[1])
+        if centerPos[1] > self.world.right:
+            self.shouldRemove = True
 
-        self.setCenterPos(newCoord)
+        self.setCenterPos(centerPos)
