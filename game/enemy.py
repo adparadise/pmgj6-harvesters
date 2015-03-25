@@ -1,6 +1,7 @@
 from kivy.graphics.instructions import InstructionGroup
 from kivy.graphics import *
 from kivy.vector import *
+import math
 import random
 
 from sprite import Sprite
@@ -13,11 +14,18 @@ class Enemy():
 
         self.pos = (0, 0)
 
-        self.sprite.color.r = random.random()
-        self.sprite.color.g = random.random()
-        self.sprite.color.b = random.random()
+        self.sprite.color.r = 0.0
+        self.sprite.color.g = 0.2
+        self.sprite.color.b = 0.5
+        self.sprite.setSizeScalar(30)
 
         self.canvas.add(self.sprite.canvas)
+
+    def reset(self):
+        pass
+
+    def setWorld(self):
+        self.world = world
 
     def setCenterPos(self, centerPos):
     	self.pos = centerPos
@@ -28,14 +36,8 @@ class Enemy():
         self.pos = centerPos
         self.sprite.setCenterPos(centerPos)
 
-        self.velocity = [random.randrange(1, 3), random.randrange(1, 3)]
-
-        if random.randrange(1, 5) < 3:
-            self.velocity[0] = -(self.velocity[0])
-
-        if random.randrange(1, 5) < 3:
-            self.velocity[1] = -(self.velocity[1])
-
+        theta = math.pi * 0.6
+        self.velocity = [math.cos(theta), math.sin(theta)]
 
     def update(self, dt):
 

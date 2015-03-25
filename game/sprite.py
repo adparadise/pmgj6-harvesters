@@ -26,6 +26,10 @@ class Sprite():
         self.rect.pos = (self.centerPos[0] - (size[0] / 2), self.centerPos[1] - (size[1] / 2))
         self.rect.size = size
 
+    def setSizeScalar(self, sizeScalar):
+        self.sizeScalar = sizeScalar
+        self.repos()
+
     def setCenterPos(self, centerPos):
         self.centerPos = centerPos
         self.repos()
