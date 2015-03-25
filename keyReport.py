@@ -28,32 +28,6 @@ class KeyReport(object):
 
 	def keyUp(self, keycode):
 		if keycode == 308:
-			p1_button1 = True
-		elif keycode == 305:
-			p1_button2 = True
-		elif keycode == 275:
-			p1_right = True
-		elif keycode == 276:
-			p1_left = True
-		elif keycode == 274:
-			p1_down = True
-		elif keycode == 273:
-			p1_up = True
-		elif keycode == 114:
-			p2_up = True
-		elif keycode == 102:
-			p1_down = True
-		elif keycode == 100:
-			p1_left = True
-		elif keycode == 103:
-			p1_right = True
-		elif keycode == 87:
-			p1_button1 = True
-		elif keycode == 115:
-			p1_button2 = True
-
-	def keyDown(self, keycode):
-		if keycode == 308:
 			p1_button1 = False
 		elif keycode == 305:
 			p1_button2 = False
@@ -77,3 +51,29 @@ class KeyReport(object):
 			p1_button1 = False
 		elif keycode == 115:
 			p1_button2 = False
+
+	def keyDown(self, keycode):
+		if keycode == 308:
+			p1_button1 = True
+		elif keycode == 305:
+			p1_button2 = True
+		elif keycode == 275:
+			p1_right = True
+		elif keycode == 276:
+			p1_left = True
+		elif keycode == 274:
+			p1_down = True
+		elif keycode == 273:
+			p1_up = True
+		elif keycode == 114:
+			p2_up = True
+		elif keycode == 102:
+			p1_down = True
+		elif keycode == 100:
+			p1_left = True
+		elif keycode == 103:
+			p1_right = True
+		elif keycode == 87:
+			p1_button1 = True
+		elif keycode == 115:
+			p1_button2 = True
