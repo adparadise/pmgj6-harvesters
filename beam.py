@@ -7,6 +7,10 @@ class Beam():
     def __init__(self, **kwargs):
         self.canvas = InstructionGroup()
 
+        self.beamLine = Line(points=(100, 200, 150, 250), width=3)
+        self.canvas.add(Color(0.5, 0.5, 0.5))
+        self.canvas.add(self.beamLine)
+
         self.player1 = Player('p1')
         self.player1.setCenterPos((330, 220))
         self.canvas.add(self.player1.canvas)
@@ -15,10 +19,9 @@ class Beam():
         self.player2.setCenterPos((230, 120))
         self.canvas.add(self.player2.canvas)
 
-        self.beamLine = Line(points=(100, 200, 150, 250), width=3)
-        self.canvas.add(self.beamLine)
-
-
+        self.enemy1 = Player('enemy1')
+        self.enemy1.setCenterPos((300, 300))
+        self.canvas.add(self.enemy1.canvas)
 
     def setKeyReport(self, keyReport):
         self.keyReport = keyReport
