@@ -28,6 +28,19 @@ class Game(Widget):
         if keycode[0] == 114:
             self.isPlayingRequested = False
 
+#define KEY_CODE_LEFT_ALT   0x04    308
+#define KEY_CODE_LEFT_CTRL  0x01    305
+#define KEY_CODE_RIGHT_ARROW    0x4f    275
+#define KEY_CODE_LEFT_ARROW 0x50        276
+#define KEY_CODE_DOWN_ARROW 0x51    274
+#define KEY_CODE_UP_ARROW   0x52    273
+#define KEY_CODE_R      0x15    114
+#define KEY_CODE_F      0x09    102
+#define KEY_CODE_D      0x07    100
+#define KEY_CODE_G      0x0A    103
+#define KEY_CODE_A      0x04    87
+#define KEY_CODE_S      0x16    115
+
     def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
         if keycode[0] == 114:
             self.isPlayingRequested = True
