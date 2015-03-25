@@ -60,6 +60,8 @@ class PlayWidget(Widget):
 
     def reset(self):
         self.frameNum = 0
+        self.player1.reset()
+        self.player2.reset()
 
     def spawnEnemy(self):
         enemy = Enemy()
