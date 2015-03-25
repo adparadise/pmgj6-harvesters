@@ -11,6 +11,7 @@ class Enemy():
         self.canvas = InstructionGroup()
 
         self.sprite = Sprite()
+        self.health = 100
 
         self.pos = (0, 0)
         self.velocity = [0, 0]
@@ -18,7 +19,7 @@ class Enemy():
         self.sprite.color.r = 0.0
         self.sprite.color.g = 0.2
         self.sprite.color.b = 0.5
-        self.sprite.setSizeScalar(30)
+        self.updateAppearance()
 
         self.canvas.add(self.sprite.canvas)
 
@@ -38,6 +39,24 @@ class Enemy():
     def setCenterPos(self, centerPos):
     	self.pos = centerPos
         self.sprite.setCenterPos(centerPos)
+
+    def decrement(self, beamState):
+        delta = 0
+        if beamState == 1:
+            self.health -= 10
+            delta = 100
+        if self.health <= 0:
+            self.shouldRemove = True
+        else:
+            self.updateAppearance()
+
+        return delta
+
+
+
+    def updateAppearance(self):
+        factor = math.log(100 - self.health + 1)
+        self.sprite.setSizeScalar(30 + factor * 10)
 
     def update(self, dt):
         centerPos = (self.pos[0] + self.velocity[0] + self.world.direction[0] * self.world.speed,

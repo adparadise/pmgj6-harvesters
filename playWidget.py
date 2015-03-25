@@ -37,7 +37,8 @@ class PlayWidget(Widget):
         self.beam = Beam(self.player1, self.player2)
 
         # Create Score Label
-        self.scoreLabel = Label(text='Score: ' + str(self.score), pos=(295, 400))
+        self.scoreLabel = Label(text='', pos=(295, 400))
+        self.updateScoreDisplay()
 
         # Background
         self.canvas.add(Color(0.2, 0.2, 0.2))
@@ -89,16 +90,33 @@ class PlayWidget(Widget):
         for enemy in self.enemies:
             enemy.update(dt)
 
-        collisions = self.getCollisions()
-        if len(collisions) > 0:
-            self.beam.setIsColliding(True)
-        else:
+        if self.beam.beamState == 0:
             self.beam.setIsColliding(False)
+        else:
+            collisions = self.getCollisions()
+            if len(collisions) > 0:
+                self.beam.setIsColliding(True)
+                self.consumeEnemies(collisions, self.beam.beamState)
+            else:
+                self.beam.setIsColliding(False)
 
         self.clearDeadEnemies()
 
         # Update Beam
         self.beam.update(dt)
+
+    def consumeEnemies(self, collisions, beamState):
+        totalDelta = 0
+        for enemy in collisions:
+            delta = enemy.decrement(beamState)
+            totalDelta += delta
+
+        if not totalDelta == 0:
+            self.score += totalDelta
+            self.updateScoreDisplay()
+
+    def updateScoreDisplay(self):
+        self.scoreLabel.text = 'Score: ' + str(self.score)
 
     def spawnNewEnemies(self):
         if self.timeOfLastSpawn + self.nextSpawnIn > self.frameNum:
