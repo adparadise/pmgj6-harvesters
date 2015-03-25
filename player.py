@@ -1,5 +1,6 @@
 from kivy.graphics.instructions import InstructionGroup
 from kivy.graphics import *
+from kivy.vector import *
 
 from sprite import Sprite
 
@@ -35,34 +36,36 @@ class Player():
         speed = 10
         anyChange = False
 
-    	if self.playerCode == 'p1':
-	        if self.keyReport.p1_up:
-	            dY = speed
-	            anyChange = True
-	        elif self.keyReport.p1_down:
-	            dY = -speed
-	            anyChange = True
+        if self.playerCode == 'p1':
+            if self.keyReport.p1_up:
+                dY = speed
+                anyChange = True
+            elif self.keyReport.p1_down:
+                dY = -speed
+                anyChange = True
 
-	        if self.keyReport.p1_left:
-	            dX = -speed
-	            anyChange = True
-	        elif self.keyReport.p1_right:
-	            dX = speed
-	            anyChange = True
-    	else:
-	        if self.keyReport.p2_up:
-	            dY = speed
-	            anyChange = True
-	        elif self.keyReport.p2_down:
-	            dY = -speed
-	            anyChange = True
+            if self.keyReport.p1_left:
+                dX = -speed
+                anyChange = True
+            elif self.keyReport.p1_right:
+                dX = speed
+                anyChange = True
+        else:
+            if self.keyReport.p2_up:
+                dY = speed
+                anyChange = True
+            elif self.keyReport.p2_down:
+                dY = -speed
+                anyChange = True
 
-	        if self.keyReport.p2_left:
-	            dX = -speed
-	            anyChange = True
-	        elif self.keyReport.p2_right:
-	            dX = speed
-	            anyChange = True
+            if self.keyReport.p2_left:
+                dX = -speed
+                anyChange = True
+            elif self.keyReport.p2_right:
+                dX = speed
+                anyChange = True
 
-        if anyChange:
-            self.setCenterPos((self.pos[0] + dX, self.pos[1] + dY))
+        newCoords = (self.pos[0] + dX, self.pos[1] + dY)
+
+        if anyChange and Vector.in_bbox(newCoords, (15, 10), (690, 470)):
+            self.setCenterPos(newCoords)
