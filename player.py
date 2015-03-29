@@ -26,8 +26,8 @@ class Player():
     	self.pos = centerPos
         self.sprite.setCenterPos(centerPos)
 
-    def setKeyReport(self, keyReport):
-        self.keyReport = keyReport
+    def setPlayerKeyReport(self, playerKeyReport):
+        self.playerKeyReport = playerKeyReport
 
     def update(self, dt):
         dX = 0
@@ -35,34 +35,19 @@ class Player():
         speed = 10
         anyChange = False
 
-        if self.playerCode == 'p1':
-            if self.keyReport.player1.up:
-                dY = speed
-                anyChange = True
-            elif self.keyReport.player1.down:
-                dY = -speed
-                anyChange = True
+        if self.playerKeyReport.up:
+            dY = speed
+            anyChange = True
+        elif self.playerKeyReport.down:
+            dY = -speed
+            anyChange = True
 
-            if self.keyReport.player1.left:
-                dX = -speed
-                anyChange = True
-            elif self.keyReport.player1.right:
-                dX = speed
-                anyChange = True
-        else:
-            if self.keyReport.player2.up:
-                dY = speed
-                anyChange = True
-            elif self.keyReport.player2.down:
-                dY = -speed
-                anyChange = True
-
-            if self.keyReport.player2.left:
-                dX = -speed
-                anyChange = True
-            elif self.keyReport.player2.right:
-                dX = speed
-                anyChange = True
+        if self.playerKeyReport.left:
+            dX = -speed
+            anyChange = True
+        elif self.playerKeyReport.right:
+            dX = speed
+            anyChange = True
 
         newCoords = (self.pos[0] + dX, self.pos[1] + dY)
 
