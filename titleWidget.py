@@ -23,6 +23,6 @@ class TitleWidget(Widget):
 
     def update(self, dt):
         self.frameNum += 1
-        if (self.keyReport.p1_button1 or self.keyReport.p1_button2 or
-            self.keyReport.p2_button1 or self.keyReport.p2_button2):
+        if (self.keyReport.player1.button1 or self.keyReport.player1.button2 or
+            self.keyReport.player2.button1 or self.keyReport.player2.button2):
             self.shouldClose = True

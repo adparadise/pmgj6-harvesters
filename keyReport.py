@@ -11,69 +11,68 @@
 #define KEY_CODE_A      0x04    87
 #define KEY_CODE_S      0x16    115
 
-class KeyReport(object):
-    p1_down = False
-    p1_up = False
-    p1_left = False
-    p1_right = False
-    p1_button1 = False
-    p1_button2 = False
 
-    p2_down = False
-    p2_up = False
-    p2_left = False
-    p2_right = False
-    p2_button1 = False
-    p2_button2 = False
+class Player(object):
+    down = False
+    up = False
+    left = False
+    right = False
+
+    button1 = False
+    button2 = False
+
+class KeyReport(object):
+    player1 = Player()
+    player2 = Player()
 
     def keyUp(self, keycode):
         if keycode == 308:
-            self.p1_button1 = False
+            self.player1.button1 = False
         elif keycode == 305:
-            self.p1_button2 = False
+            self.player1.button2 = False
         elif keycode == 275:
-            self.p1_right = False
+            self.player1.right = False
         elif keycode == 276:
-            self.p1_left = False
+            self.player1.left = False
         elif keycode == 274:
-            self.p1_down = False
+            self.player1.down = False
         elif keycode == 273:
-            self.p1_up = False
+            self.player1.up = False
         elif keycode == 114:
-            self.p2_up = False
+            self.player2.up = False
         elif keycode == 102:
-            self.p2_down = False
+            self.player2.down = False
         elif keycode == 100:
-            self.p2_left = False
+            self.player2.left = False
         elif keycode == 103:
-            self.p2_right = False
+            self.player2.right = False
         elif keycode == 115:
-            self.p2_button1 = False
+            self.player2.button1 = False
         elif keycode == 97:
-            self.p2_button2 = False
+            self.player2.button2 = False
 
     def keyDown(self, keycode):
         if keycode == 308:
-            self.p1_button1 = True
+            self.player1.button1 = True
         elif keycode == 305:
-            self.p1_button2 = True
+            self.player1.button2 = True
         elif keycode == 275:
-            self.p1_right = True
+            self.player1.right = True
         elif keycode == 276:
-            self.p1_left = True
+            self.player1.left = True
         elif keycode == 274:
-            self.p1_down = True
+            self.player1.down = True
         elif keycode == 273:
-            self.p1_up = True
+            self.player1.up = True
         elif keycode == 114:
-            self.p2_up = True
+            self.player2.up = True
         elif keycode == 102:
-            self.p2_down = True
+            self.player2.down = True
         elif keycode == 100:
-            self.p2_left = True
+            self.player2.left = True
         elif keycode == 103:
-            self.p2_right = True
+            self.player2.right = True
         elif keycode == 115:
-            self.p2_button1 = True
+            self.player2.button1 = True
         elif keycode == 97:
-            self.p2_button2 = True
+            self.player2.button2 = True

@@ -36,31 +36,31 @@ class Player():
         anyChange = False
 
         if self.playerCode == 'p1':
-            if self.keyReport.p1_up:
+            if self.keyReport.player1.up:
                 dY = speed
                 anyChange = True
-            elif self.keyReport.p1_down:
+            elif self.keyReport.player1.down:
                 dY = -speed
                 anyChange = True
 
-            if self.keyReport.p1_left:
+            if self.keyReport.player1.left:
                 dX = -speed
                 anyChange = True
-            elif self.keyReport.p1_right:
+            elif self.keyReport.player1.right:
                 dX = speed
                 anyChange = True
         else:
-            if self.keyReport.p2_up:
+            if self.keyReport.player2.up:
                 dY = speed
                 anyChange = True
-            elif self.keyReport.p2_down:
+            elif self.keyReport.player2.down:
                 dY = -speed
                 anyChange = True
 
-            if self.keyReport.p2_left:
+            if self.keyReport.player2.left:
                 dX = -speed
                 anyChange = True
-            elif self.keyReport.p2_right:
+            elif self.keyReport.player2.right:
                 dX = speed
                 anyChange = True
 

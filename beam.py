@@ -29,8 +29,8 @@ class Beam():
         self.player2.setKeyReport(keyReport)
 
     def updateBeamState(self):
-        bothButton1 = self.keyReport.p1_button1 and self.keyReport.p2_button1
-        bothButton2 = self.keyReport.p1_button2 and self.keyReport.p2_button2
+        bothButton1 = self.keyReport.player1.button1 and self.keyReport.player2.button1
+        bothButton2 = self.keyReport.player1.button2 and self.keyReport.player2.button2
 
         beamState = self.beamState
         if not bothButton1 and not bothButton2:
