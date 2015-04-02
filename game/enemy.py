@@ -44,7 +44,7 @@ class Enemy():
     def reset(self, isRespawned):
         sample = random.random()
         theta = math.pi * 2 * sample
-        speed = 0.05
+        speed = 0.1
         self.isRespawned = isRespawned
         self.velocity = [math.cos(theta) * speed,
                          math.sin(theta) * speed]
