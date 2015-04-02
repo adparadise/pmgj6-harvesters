@@ -1,5 +1,5 @@
-# pmgj6-harvesters
-A game made for Purple Monkey Game Jam IV
+# Harvesters
+A game made for Purple Monkey Game Jam IV.
 
 Designed to run on a Raspberry Pi B+!
 
@@ -7,7 +7,7 @@ Designed to run on a Raspberry Pi B+!
 
 * Rasbpian
 * Python 2.7 (which is the default)
-* [kivy.org](http://kivy.org) I recommend following the [manual instructions](http://kivy.org/docs/installation/installation-rpi.html
+* [kivy.org](http://kivy.org) I recommend following the [manual instructions](http://kivy.org/docs/installation/installation-rpi.html)
 
 **NOTE** Kivy was patched to account for Raspbian's representing both ALT keys as the same. Patch forthcoming ;)
 
